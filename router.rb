@@ -15,6 +15,7 @@ class Router
     while @running
       display_menu
       action = get_user_choice
+      print `clear`
       dispatch(action)
     end
   end
@@ -29,6 +30,8 @@ class Router
   def dispatch(action)
     case action
     when 1 then @meals_controller.list
+    when 2 then @meals_controller.add_meal
+    when 3 then @customers_controller.list
     when 9 then @running = false
     end
   end

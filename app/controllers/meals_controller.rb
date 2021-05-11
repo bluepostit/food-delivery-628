@@ -1,4 +1,5 @@
 require_relative '../views/meals_view'
+require_relative '../models/meal'
 
 class MealsController
   # State
@@ -14,7 +15,14 @@ class MealsController
   end
 
   def add_meal
-
+    # ask user for meal name
+    # ask user for meal price
+    # create a Meal instance! with name, price.
+    # add meal to repository
+    name = @view.ask_for('meal name')
+    price = @view.ask_for_number('meal price')
+    meal = Meal.new(name: name, price: price)
+    @meal_repository.create(meal)
   end
 
   def list
