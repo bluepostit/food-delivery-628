@@ -14,7 +14,7 @@ class MealsController
     @view = MealsView.new
   end
 
-  def add_meal
+  def add
     # ask user for meal name
     # ask user for meal price
     # create a Meal instance! with name, price.
