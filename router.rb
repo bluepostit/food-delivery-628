@@ -21,30 +21,35 @@ class Router
     while @running
       # log in!
       @employee = @sessions_controller.sign_in
-      while @employee
-        user_action
-      end
+      user_action while @employee
     end
   end
 
   private
 
   def user_action
-      # display the correct menu for the user!
-      # if user is a manager, display manager menu
-      # else, display rider menu.
-
+    # display the correct menu for the user!
+    # if user is a manager, display manager menu
+    # else, display rider menu.
     if @employee.manager?
-      display_manager_menu
-      action = user_choice
-      print `clear`
-      dispatch_manager_action(action)
+      manager_action
     else
-      display_rider_menu
-      action = user_choice
-      print `clear`
-      dispatch_rider_action(action)
+      rider_action
     end
+  end
+
+  def manager_action
+    display_manager_menu
+    action = user_choice
+    print `clear`
+    dispatch_manager_action(action)
+  end
+
+  def rider_action
+    display_rider_menu
+    action = user_choice
+    print `clear`
+    dispatch_rider_action(action)
   end
 
   def display_manager_menu
@@ -65,8 +70,8 @@ class Router
     when 2 then @meals_controller.add
     when 3 then @customers_controller.list
     when 4 then @customers_controller.add
-    when 5 then @orders_controller.list_undelivered
-    when 6 then @orders_controller.create
+    when 5 then @orders_controller.list_undelivered_orders
+    when 6 then @orders_controller.add
     when 8 then @employee = nil
     when 9 then exit
     end
@@ -83,7 +88,7 @@ class Router
 
   def dispatch_rider_action(action)
     case action
-    when 1 then @orders_controller.list_my_undelivered(@employee)
+    when 1 then @orders_controller.list_my_orders(@employee)
     when 2 then puts 'To do....'
     when 8 then @employee = nil
     when 9 then exit

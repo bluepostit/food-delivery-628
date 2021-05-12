@@ -29,7 +29,7 @@ class OrderRepository
     @orders.find { |employee| employee.username == username }
   end
 
-  def add(order)
+  def create(order)
     order.id = @next_id
     @next_id += 1
     @orders << order
@@ -40,7 +40,7 @@ class OrderRepository
     @orders
   end
 
-  def all_undelivered
+  def undelivered_orders
     @orders.reject { |order| order.delivered? }
   end
 
@@ -49,23 +49,24 @@ class OrderRepository
   def load_csv
     csv_options = { headers: :first_row, header_converters: :symbol }
     CSV.foreach(@csv_file_path, csv_options) do |row|
-      row[:id] = row[:id].to_i
-      row[:delivered] = row[:delivered] == 'true'
-
-      row[:meal] = @meal_repository.find(row[:meal_id].to_i)
-      row[:customer] = @customer_repository.find(row[:customer_id].to_i)
-      employee = @employee_repository.find(row[:employee_id].to_i)
-      row[:employee] = employee
-
-      order = Order.new(row)
+      order = build_order(row)
       @orders << order
-
-      p row
-      p order
-
-      employee.add_order(order)
     end
-    @next_id = @orders.last.id if @orders.any?
+    @next_id = @orders.last.id + 1 if @orders.any?
+  end
+
+  def build_order(row)
+    row[:id] = row[:id].to_i
+    row[:delivered] = row[:delivered] == 'true'
+
+    row[:meal] = @meal_repository.find(row[:meal_id].to_i)
+    row[:customer] = @customer_repository.find(row[:customer_id].to_i)
+    employee = @employee_repository.find(row[:employee_id].to_i)
+    row[:employee] = employee
+
+    order = Order.new(row)
+    employee.add_order(order)
+    order
   end
 
   def save_csv

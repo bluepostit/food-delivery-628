@@ -12,7 +12,7 @@ class OrdersController
     @view = OrdersView.new
   end
 
-  def create
+  def add
     # ask user for meal
     # ask user for customer
     # ask user for employee (rider)
@@ -22,17 +22,16 @@ class OrdersController
     customer = select_customer
     rider = select_rider
     order = Order.new(meal: meal, customer: customer, employee: rider)
-    @order_repository.add(order)
+    @order_repository.create(order)
     rider.add_order(order)
   end
 
-
-  def list_undelivered
-    undelivered = @order_repository.all_undelivered
+  def list_undelivered_orders
+    undelivered = @order_repository.undelivered_orders
     @view.display(undelivered)
   end
 
-  def list_my_undelivered(employee)
+  def list_my_orders(employee)
     undelivered = employee.undelivered_orders
     @view.display(undelivered)
   end
@@ -54,7 +53,7 @@ class OrdersController
   end
 
   def select_rider
-    riders = @employee_repository.riders
+    riders = @employee_repository.all_riders
     @view.display_riders(riders)
     rider_index = @view.ask_for_index('rider')
     riders[rider_index]

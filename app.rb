@@ -27,9 +27,9 @@ sessions_controller = SessionsController.new(employee_repository)
 # Orders...
 order_csv_file_path = 'data/orders.csv'
 order_repository = OrderRepository.new(order_csv_file_path,
-                           meal_repository,
-                           customer_repository,
-                           employee_repository)
+                                       meal_repository,
+                                       customer_repository,
+                                       employee_repository)
 orders_controller = OrdersController.new(meal_repository,
                                          customer_repository,
                                          employee_repository,

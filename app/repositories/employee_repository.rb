@@ -24,7 +24,7 @@ class EmployeeRepository
     @employees.find { |employee| employee.username == username }
   end
 
-  def riders
+  def all_riders
     @employees.select { |employee| employee.rider? }
   end
 

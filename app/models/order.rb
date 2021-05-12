@@ -7,7 +7,7 @@ class Order
     @meal = attr[:meal]
     @customer = attr[:customer]
     @employee = attr[:employee]
-    @delivered = attr[:delivered]
+    @delivered = attr[:delivered] || false
   end
 
   def delivered?
