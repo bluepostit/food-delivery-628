@@ -8,10 +8,12 @@ class Router
 
   def initialize(meals_controller,
                  customers_controller,
-                 sessions_controller)
+                 sessions_controller,
+                 orders_controller)
     @meals_controller = meals_controller
     @customers_controller = customers_controller
     @sessions_controller = sessions_controller
+    @orders_controller = orders_controller
     @running = true
   end
 
@@ -51,6 +53,8 @@ class Router
     puts '2. Add a meal'
     puts '3. List all customers'
     puts '4. Add a customer'
+    puts '5. List undelivered orders'
+    puts '6. Add an order'
     puts '8. Sign out'
     puts '9. Exit'
   end
@@ -61,12 +65,15 @@ class Router
     when 2 then @meals_controller.add
     when 3 then @customers_controller.list
     when 4 then @customers_controller.add
+    when 5 then @orders_controller.list_undelivered
+    when 6 then @orders_controller.create
     when 8 then @employee = nil
     when 9 then exit
     end
   end
 
   def display_rider_menu
+    puts ''
     puts '   --- Food Delivery ---'
     puts '1. List my undelivered orders'
     puts '2. Deliver an order'
@@ -76,7 +83,7 @@ class Router
 
   def dispatch_rider_action(action)
     case action
-    when 1 then puts 'To do....'
+    when 1 then @orders_controller.list_my_undelivered(@employee)
     when 2 then puts 'To do....'
     when 8 then @employee = nil
     when 9 then exit

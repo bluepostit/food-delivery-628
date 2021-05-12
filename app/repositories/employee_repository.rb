@@ -16,8 +16,16 @@ class EmployeeRepository
     load_csv if File.exist?(csv_file_path)
   end
 
+  def find(id)
+    @employees.find { |employee| employee.id == id }
+  end
+
   def find_by_username(username)
     @employees.find { |employee| employee.username == username }
+  end
+
+  def riders
+    @employees.select { |employee| employee.rider? }
   end
 
   private

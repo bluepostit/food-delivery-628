@@ -6,8 +6,8 @@ class MealsView
   # - receive input
 
   def display(meals)
-    meals.each do |meal|
-      puts "- #{meal.name} - #{meal.price}€"
+    meals.each_with_index do |meal, index|
+      puts "#{index + 1}. #{meal.name} - #{meal.price}€"
     end
   end
 

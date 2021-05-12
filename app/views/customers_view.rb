@@ -6,8 +6,8 @@ class CustomersView
   # - receive input
 
   def display(customers)
-    customers.each do |customer|
-      puts "- #{customer.name} / #{customer.address}"
+    customers.each_with_index do |customer, index|
+      puts "#{index + 1}. #{customer.name} / #{customer.address}"
     end
   end
 
