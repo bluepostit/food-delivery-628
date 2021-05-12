@@ -18,22 +18,30 @@ class Router
   def run
     while @running
       # log in!
-      employee = @sessions_controller.sign_in
+      @employee = @sessions_controller.sign_in
+      while @employee
+        user_action
+      end
+    end
+  end
+
+  private
+
+  def user_action
       # display the correct menu for the user!
       # if user is a manager, display manager menu
       # else, display rider menu.
 
-      if employee.manager?
-        display_manager_menu
-        action = user_choice
-        print `clear`
-        dispatch_manager_action(action)
-      else
-        display_rider_menu
-        action = user_choice
-        print `clear`
-        dispatch_rider_action(action)
-      end
+    if @employee.manager?
+      display_manager_menu
+      action = user_choice
+      print `clear`
+      dispatch_manager_action(action)
+    else
+      display_rider_menu
+      action = user_choice
+      print `clear`
+      dispatch_rider_action(action)
     end
   end
 
@@ -43,6 +51,7 @@ class Router
     puts '2. Add a meal'
     puts '3. List all customers'
     puts '4. Add a customer'
+    puts '8. Sign out'
     puts '9. Exit'
   end
 
@@ -52,7 +61,8 @@ class Router
     when 2 then @meals_controller.add
     when 3 then @customers_controller.list
     when 4 then @customers_controller.add
-    when 9 then @running = false
+    when 8 then @employee = nil
+    when 9 then exit
     end
   end
 
@@ -60,6 +70,7 @@ class Router
     puts '   --- Food Delivery ---'
     puts '1. List my undelivered orders'
     puts '2. Deliver an order'
+    puts '8. Sign out'
     puts '9. Exit'
   end
 
@@ -67,8 +78,14 @@ class Router
     case action
     when 1 then puts 'To do....'
     when 2 then puts 'To do....'
-    when 9 then @running = false
+    when 8 then @employee = nil
+    when 9 then exit
     end
+  end
+
+  def exit
+    @employee = nil
+    @running = false
   end
 
   def user_choice
