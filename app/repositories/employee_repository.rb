@@ -7,13 +7,17 @@ class EmployeeRepository
   # - employees (array)
   # Behavior
   # - all
-  # - ...
+  # - find employee by username
   # - load csv
 
   def initialize(csv_file_path)
     @csv_file_path = csv_file_path
     @employees = []
     load_csv if File.exist?(csv_file_path)
+  end
+
+  def find_by_username(username)
+    @employees.find { |employee| employee.username == username }
   end
 
   private

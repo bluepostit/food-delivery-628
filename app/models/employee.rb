@@ -13,4 +13,12 @@ class Employee
     @password = attr[:password]
     @role = attr[:role]
   end
+
+  def manager?
+    @role == 'manager'
+  end
+
+  def rider?
+    @role == 'rider'
+  end
 end
