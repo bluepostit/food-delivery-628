@@ -44,6 +44,11 @@ class OrderRepository
     @orders.reject { |order| order.delivered? }
   end
 
+  def deliver(order)
+    order.deliver!
+    save_csv
+  end
+
   private
 
   def load_csv

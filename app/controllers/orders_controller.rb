@@ -34,6 +34,14 @@ class OrdersController
   def list_my_orders(employee)
     undelivered = employee.undelivered_orders
     @view.display(undelivered)
+    undelivered
+  end
+
+  def mark_as_delivered(employee)
+    undelivered = list_my_orders(employee)
+    index = @view.ask_for_index('order')
+    order = undelivered[index]
+    @order_repository.deliver(order)
   end
 
   private

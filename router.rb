@@ -89,7 +89,7 @@ class Router
   def dispatch_rider_action(action)
     case action
     when 1 then @orders_controller.list_my_orders(@employee)
-    when 2 then puts 'To do....'
+    when 2 then @orders_controller.mark_as_delivered
     when 8 then @employee = nil
     when 9 then exit
     end
